@@ -28,6 +28,7 @@ for i in range(m):
 cnt=0
 
 print("\n")
+print("List of student:")
 for i in range(n):
     print(sinhvien_id[i],sinhvien_name[i],sinhvien_dob[i])
 
