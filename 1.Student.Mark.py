@@ -33,7 +33,7 @@ for i in range(n):
     print(sinhvien_id[i],sinhvien_name[i],sinhvien_dob[i])
 
 for i in range(m):
-    print("ID course:",course_id[i])
+    print("\nID course:",course_id[i])
     print("Name course:",course_name[i])
     for j in range(n):
         print(sinhvien_id[j],sinhvien_name[j]+": ",diem[cnt])
