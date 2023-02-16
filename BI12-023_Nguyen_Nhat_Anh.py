@@ -10,7 +10,7 @@ for i in range(n):
     k=input("Date of birth of student "+str(i+1)+": ")
     sinhvien_dob.append(k)
 
-m=int(input("Number of course"))
+m=int(input("Number of course: "))
 course_id=[]
 course_name=[]
 for i in range(m):
