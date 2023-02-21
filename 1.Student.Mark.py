@@ -17,6 +17,17 @@ def insert_mark(n,stduent,subject,mark):
             point.append(k)
         mark.append(point)
 
+def show(student,subject,mark,n,m):
+    for i in range(len(student)):
+        cnt=0
+        print("\n"*2)
+        print(student[i])
+        for j in range(len(subject)):
+            print(str(subject[j][0]),end=' ')
+            print(str(subject[j][1])+":",end=' ')
+            print(mark[i][cnt])
+            cnt+=1
+
 n=int(input("Number of student: "))
 student=[]
 insert_student(n,student)
@@ -25,6 +36,4 @@ m=int(input("Number of object: "))
 insert_subject(m,subject)
 mark=[]
 insert_mark(n,student,subject,mark)
-print(student)
-print(subject)
-print(mark)
+show(student,subject,mark,n,m)
