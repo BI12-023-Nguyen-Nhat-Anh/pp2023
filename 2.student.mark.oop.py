@@ -1,17 +1,10 @@
 class person:
-    id: str
-    name: str
-    dob: str
     def __init__(self,id,name,dob):
         self.id=id
         self.name=name
         self.dob=dob
 
-    
-
 class sub:
-    id: str
-    name: str
     def __init__(self,id,name):
         self.id=id
         self.name=name
