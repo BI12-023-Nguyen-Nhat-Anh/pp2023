@@ -34,6 +34,7 @@ def display(arr1,arr2,arr3):
             print(" "*(kc+3)+arr2[j][0]+" "+arr2[j][1]+": ",end='')
             print(arr3[i][j])
 
+#array 1, array 2, array 3 are used to store all your input information
 n=int(input("Number of student: "))
 arr1=[]
 for i in range(n):
