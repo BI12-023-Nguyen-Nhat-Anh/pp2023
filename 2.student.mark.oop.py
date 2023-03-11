@@ -26,7 +26,7 @@ class subject:
         self.__id=id
         self.__name=name
 
-    def get_info(self) -> tuple[str,str]:
+    def get_info(self):
         return self.__id, self.__name
     
     def get_name(self):
