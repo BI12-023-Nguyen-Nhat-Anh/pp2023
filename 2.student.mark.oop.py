@@ -9,55 +9,64 @@ class student(person):
     def __init__(self,id,name,dob):
         super().__init__(name,dob)
         self.id=id
+        self.__mark=[]
+
+    def add_mark(self,x):
+        self.__mark.append(x)
+    
+    def get_mark(self):
+        return self.__mark
 
     def show(self):
         return self.id,self.name,self.dob
 
 #Class subject has function to get id and name of subject
 class subject:
-    __id: str
-    __name: str
     def __init__(self,id,name):
         self.__id=id
         self.__name=name
 
-    def get_info(self):
+    def get_info(self) -> tuple[str,str]:
         return self.__id, self.__name
+    
+    def get_name(self):
+        return self.__name
+    
+    def get_id(self):
+        return self.__id
 
 #Display function makes the output easier to see
-def display(arr1,arr2,arr3):
-    for i in range(len(arr1)):
-        print("\n"*2)
-        print(arr1[i][0]+" "+arr1[i][1]+" "+arr1[i][2]+": ")
-        kc=len(arr1[i][0])+len(arr1[i][1])+len(arr1[i])
-        for j in range(len(arr2)):
-            print(" "*(kc+3)+arr2[j][0]+" "+arr2[j][1]+": ",end='')
-            print(arr3[i][j])
+def display(list_student,list_subject):
+    for student in list_student:
+        i=0
+        print(f"{student.id} {student.name} {student.dob}")
+        for subject in list_subject:
+            print(f"{subject.get_id()} {subject.get_name()}: {student.get_mark()[i]}")
+            i+=1
 
-#array 1, array 2, array 3 are used to store all your input information
+#list_student and list_subject are used to store all addresses of class student and class subject
 n=int(input("Number of student: "))
-arr1=[]
+list_student=[]
 for i in range(n):
     id=input("Student's ID: ")
     name=input("Student's name: ")
     dob=input("Student's date of birth: ")
     a=student(id,name,dob)
-    arr1.append(a.show())
+    list_student.append(a)
 
 m=int(input("Number of subject: "))
-arr2=[]
+list_subject=[]
 for i in range(m):
     id=input("Enter course ID: ")
     name=input("Enter course name: ")
     a=subject(id,name)
-    arr2.append(a.get_info())
+    list_subject.append(a)
 
-arr3=[]
-for i in range(n):
+# list_mark=[]
+for student in list_student:
     point=[]
-    for j in range(m):
-        k=float(input(arr2[j][1]+" score of stduent "+arr1[i][1]+": "))
-        point.append(k)
-    arr3.append(point)
+    for subject in list_subject:
+        i=float(input(f"Score of {subject.get_name()} of student {student.name}: "))
+        student.add_mark(i)
 
-display(arr1,arr2,arr3)
+display(list_student,list_subject)
