@@ -36,4 +36,7 @@ for student in list_student:
         j+=1
     student.add_average(round(np.mean(average_mark,axis=0),1))
 
+#This line help me to overwrite the list_student in descending order
+list_student=sorted(list_student,key=lambda x: x.get_average(), reverse=True)
+
 show=op.display(list_student,list_subject)
