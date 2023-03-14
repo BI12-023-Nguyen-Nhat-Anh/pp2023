@@ -1,5 +1,3 @@
-import input
-
 def display(list_student,list_subject):
     for student in list_student:
         i=0
