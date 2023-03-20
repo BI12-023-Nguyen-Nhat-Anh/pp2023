@@ -1,4 +1,3 @@
-import math
 import numpy as np
 import input as ip
 import output as op
@@ -8,7 +7,7 @@ import os.path
 #This is the name of the zip file
 zip_name="student.dat"
 
-#Check if student.dat file exists or not, if yes extract it
+# #Check if student.dat file exists or not, if yes extract it
 if os.path.exists("student.dat"):
     with file.ZipFile("student.dat", 'r') as f:
         f.extractall()
@@ -49,80 +48,32 @@ if os.path.exists("subject.txt"):
     f.close()
 
 if os.path.exists("mark.txt"):
+    # Load the data from the mark.txt to the program
     with open("mark.txt","r") as f:
-        arr1=[]
         arr2=[]
+        arr1=[]
         a=f.read()
         arr=a.split("\n")
-        print("arr=")
         for i in range(len(arr)):
-            arr1.append(arr[i].split("_"))
-            #Delete empty array
             if(arr[i]==''):
-                arr1.pop(i)
-        
-        #This is a case where the user added a new student but did not enter the score for that student        
-        if(len(arr1)<len(list_student)): 
-            with open("mark.txt","a+") as f:
-                for subject in list_subject:
-                    f.write(f"{subject.get_name()}:0_")
-                f.write("Average mark:0\n")
-            f.close()
-            for i in range(len(arr)):
-                arr1.append(arr[i].split("_"))
-                if(arr[i]==''):
-                    arr1.pop(i)
-        n=arr1
-        for i in range(len(arr1)):
-            k=arr1[i]
-            for j in range(len(k)):
-                arr2.append(k[j].split(":"))
-        arr1=[]
-        for i in range(len(arr2)):
-            if(arr2[i][0]==''):
-                arr2.pop(len(arr2)-1)
-
-    for i in range(len(arr2)):
-        arr1.append(float(arr2[i][1]))
-    arr2=np.array_split(arr1,len(n),axis=0)
-    i=0
-    for student in list_student:
-        for j in range(len(arr2[i])):
-            if(j==len(arr2[i])-1):
-                student.add_average(arr2[i][j])
-            else:
-                k=student.add_mark(arr2[i][j])
-        i+=1
+                arr.pop(i)
     f.close()
-
-    # The lines of code below to update the score if the user adds a subject but has not entered the score
-    if (len(list_subject)!=len(arr2[0])-1):
-        a=len(list_subject)-(len(arr2[0])-1)
-        contents=[]
-        with open("mark.txt","r") as f:
-            k=f.read()
-            contents=k.split("\n")
-        f.close()
-        if(contents[len(contents)-1]==''):
-            contents.pop(len(contents)-1)
-        for student in list_student:
-            i=0
-            while(i<2):
-                print("i=",i)
-                print(student.get_name())
-                student.add_mark(0)
-                i+=1
-        f.close()
-
-        with open("mark.txt","w") as f:
-            for student in list_student:
-                i=0
-                for subject in list_subject:
-                    f.write(f"{subject.get_name()}:{student.get_mark()[i]}_")
-                    i+=1
-                average=round(np.mean(student.get_mark(),axis=0),1)
-                f.write(f"Average mark:{average}\n")
-        f.close()
+    for i in range(len(arr)):
+        if(arr[i]==''):
+            arr.pop(i)
+    for i in arr:
+        arr1.append(i.split("_"))
+    for i in range(len(arr1)):
+        for j in range(len(arr1[i])):
+            arr2.append(arr1[i][j].split(":"))
+    j=0
+    for student in list_student:
+        for i in range(len(list_subject)+1):
+            if("Average mark" in arr2[j]):
+                student.add_average(arr2[j][1])
+            else:
+                student.add_mark(arr2[j][1])
+            j+=1
 
 while(True):
     os.system("cls")
@@ -147,8 +98,7 @@ while(True):
 
     if(option==1):
         with open("student.txt","a+") as f:
-            n=input("Number of student: ")
-            n=cnt_su
+            n=int(input("Number of student: "))
             for i in range(n):
                 id=input("ID of student: ")
                 name=input("Name of student: ")
@@ -191,8 +141,6 @@ while(True):
                         for i in range(len(contents)):
                             if(contents[i]==''):
                                 contents.pop(i)
-                        print("con=",contents)
-                        print("con[1]=",contents[cnt_st-1])
                         if(contents[len(contents)-1]==''):
                             contents.pop(len(contents)-1)
                         i=float(input(f"{subject.get_name()} score of student {student.get_name()}: "))
@@ -237,12 +185,12 @@ while(True):
         print("The anwser is not on the list so the answer default is no")
         break
 
-#file_list contains the path of all the files to be compressed
+# #file_list contains the path of all the files to be compressed
 file_list=['student.txt','subject.txt','mark.txt']
 with file.ZipFile(zip_name,'w') as f:
     for i in file_list:
         f.write(i)
 f.close()
-#Remove all file after compressed
+# #Remove all file after compressed
 for i in file_list:
     os.remove(i)
