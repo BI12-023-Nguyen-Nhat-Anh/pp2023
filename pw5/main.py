@@ -194,3 +194,5 @@ f.close()
 # #Remove all file after compressed
 for i in file_list:
     os.remove(i)
+
+# I will improve my code in lab work 3 then I will comeback to complete you
