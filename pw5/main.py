@@ -47,8 +47,8 @@ if os.path.exists("subject.txt"):
         list_subject.append(k)
     f.close()
 
+# Load the data from the mark.txt to the program if mark.txt exists
 if os.path.exists("mark.txt"):
-    # Load the data from the mark.txt to the program
     with open("mark.txt","r") as f:
         arr2=[]
         arr1=[]
@@ -66,13 +66,14 @@ if os.path.exists("mark.txt"):
     for i in range(len(arr1)):
         for j in range(len(arr1[i])):
             arr2.append(arr1[i][j].split(":"))
+            
     j=0
     for student in list_student:
         for i in range(len(list_subject)+1):
             if("Average mark" in arr2[j]):
                 student.add_average(arr2[j][1])
             else:
-                student.add_mark(arr2[j][1])
+                student.add_mark(arr2[j][0],float(arr2[j][1]))
             j+=1
 
 while(True):
@@ -105,11 +106,12 @@ while(True):
                 dob=input("Student date of birth: ")
                 k=ip.students(id,name,dob)
                 list_student.append(k)
+                for subject in list_subject:
+                    k.add_mark(subject.get_name(),0)
                 f.write(k.get_id()+"_"+k.get_name()+"_"+k.get_dob()+"\n")
             f.close()
 
-    if(option==2):
-        list_subject=[]
+    elif(option==2):
         m=int(input("Number of subject: "))
         with open("subject.txt","a+") as f:
             for i in range(m):
@@ -118,62 +120,54 @@ while(True):
                 credit=int(input(f"Credit of {name}: "))
                 k=ip.subjects(id,name,credit)
                 list_subject.append(k)
+                for student in list_student:
+                    student.add_mark(name,0.0)
                 f.write(k.get_id()+"_"+k.get_name()+"_"+str(k.get_credit())+"\n")
-            f.close()
+        f.close()
 
-    if(option==3):
-        cnt_st=cnt_su=0
+    elif(option==3):
         show=op.display_student(list_student)
         n=input("Choose ID of student you want to change mark: ")
         for student in list_student:
-            cnt_st+=1
             if(student.get_id()==n):
                 show=op.display_subject(list_subject)
                 m=input("\nChoose ID of subject you want to change mark: ")
                 for subject in list_subject:
-                    cnt_su+=1
                     if(subject.get_id()==m):
-                        contents=[]
-                        with open("mark.txt","r") as f:
-                            k=f.read()
-                            contents=k.split("\n")
-                        f.close()
-                        for i in range(len(contents)):
-                            if(contents[i]==''):
-                                contents.pop(i)
-                        if(contents[len(contents)-1]==''):
-                            contents.pop(len(contents)-1)
                         i=float(input(f"{subject.get_name()} score of student {student.get_name()}: "))
-                        student.change_mark(cnt_su-1,i)
-
-                        average=round(np.mean(student.get_mark(),axis=0),1)
-                        student.add_average(average)
-                        j=0
-                        contents[cnt_st-1]=''
-                        for subject in list_subject:
-                            contents[cnt_st-1]+=f"{subject.get_name()}:{student.get_mark()[j]}_"
-                            j+=1
-
-                        contents[cnt_st-1]+=f"Average mark:{student.get_average()}"
-                        with open('mark.txt', 'w') as f:
-                            for i in contents:
-                                f.write(i+"\n")
-                        f.close()
+                        student.add_mark(subject.get_name(),i)
 
     #Show information of all student
-    if(option==4):
+    elif(option==4):
         show=op.display_student(list_student)
 
     #Show information of all subject
-    if(option==5):
+    elif(option==5):
         show=op.display_subject(list_subject)
 
     #Show information of all mark
-    if(option==6):
+    elif(option==6):
         show=op.display_mark(list_student,list_subject)
     
-    if(option==7):
+    elif(option==7):
         break
+        
+    # 2 loop will run all the data again to update the mark and average mark
+    for student in list_student:
+        mark=[]
+        for subject in list_subject:
+            for i in range(subject.get_credit()):
+                mark.append(student.get_mark()[subject.get_name()])
+        average=round(np.mean(mark,axis=0),1)
+        student.add_average(average)
+
+    # After update the mark and average mark I will overwrite the file mark.txt to update data on real time for the user
+    with open("mark.txt","w") as f:
+        for student in list_student:
+            for subject in list_subject:
+                f.write(f"{subject.get_name()}:{student.get_mark()[subject.get_name()]}_")
+            f.write(f"Average mark:{student.get_average()}\n")
+    f.close()
 
     #Ask user want to continue or stop
     ans=input("\nDo you want to continue(y or n): ")
@@ -185,14 +179,13 @@ while(True):
         print("The anwser is not on the list so the answer default is no")
         break
 
-# #file_list contains the path of all the files to be compressed
+#file_list contains the path of all the files to be compressed
 file_list=['student.txt','subject.txt','mark.txt']
 with file.ZipFile(zip_name,'w') as f:
     for i in file_list:
         f.write(i)
 f.close()
-# #Remove all file after compressed
+
+#Remove all file after compressed
 for i in file_list:
     os.remove(i)
-
-# I will improve my code in lab work 3 then I will comeback to complete you

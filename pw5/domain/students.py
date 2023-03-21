@@ -13,19 +13,16 @@ class students(person):
     def __init__(self,id,name,dob):
         super().__init__(name,dob)
         self.__id=id
-        self.__mark=[]
+        self.__mark={}
         self.__average=0
-
-    def change_mark(self,i,x):
-        self.__mark[i]=x
         
     def get_id(self) -> str:
         return self.__id
     
-    def add_mark(self,x):
-        self.__mark.append(x)
+    def add_mark(self,n,x):
+        self.__mark[n]=x
     
-    def get_mark(self) -> list:
+    def get_mark(self):
         return self.__mark
 
     def add_average(self,x):
