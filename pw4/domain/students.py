@@ -13,7 +13,7 @@ class students(person):
     def __init__(self,id,name,dob):
         super().__init__(name,dob)
         self.__id=id
-        self.__mark=[]
+        self.__mark={}
         self.__average=0
 
     def get_id(self):
