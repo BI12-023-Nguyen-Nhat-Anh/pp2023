@@ -19,8 +19,8 @@ class students(person):
     def get_id(self):
         return self.__id
     
-    def add_mark(self,x):
-        self.__mark.append(x)
+    def add_mark(self,n,x):
+        self.__mark[n]=x
     
     def get_mark(self):
         return self.__mark
