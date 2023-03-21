@@ -11,11 +11,12 @@ class students(person):
     def __init__(self,id,name,dob):
         super().__init__(name,dob)
         self.id=id
-        self.__mark=[]
+        self.__mark={}
         self.__average=0
 
-    def add_mark(self,x):
-        self.__mark.append(x)
+
+    def add_mark(self,n,x):
+        self.__mark[n]=x
     
     def get_mark(self):
         return self.__mark
@@ -54,7 +55,7 @@ def display(list_student,list_subject):
         i=0
         print(f"\n{student.id} {student.name} {student.dob}")
         for subject in list_subject:
-            print(f"{subject.get_id()} {subject.get_name()}: {student.get_mark()[i]}")
+            print(f"{subject.get_id()} {subject.get_name()}: {student.get_mark()[subject.get_name()]}")
             i+=1
         print(f"Average of student {student.name} {student.get_average()}")
 
@@ -77,20 +78,16 @@ for i in range(m):
     a=subjects(id,name,credit)
     list_subject.append(a)
 
-# list_mark=[]
 for student in list_student:
-    point=[]
     for subject in list_subject:
         i=float(input(f"Score of {subject.get_name()} of student {student.name}: "))
-        student.add_mark(math.floor(i))
+        student.add_mark(f"{subject.get_name()}",math.floor(i))
 
 for student in list_student:
     average_mark=[]
-    j=0
     for subject in list_subject:
         for i in range(subject.get_credit()):
-            average_mark.append(student.get_mark()[j])
-        j+=1
+            average_mark.append(student.get_mark()[subject.get_name()])
     student.add_average(round(np.mean(average_mark,axis=0),1)) #This line for calculate the average mark of each student round function for round 1 number after comma
 
 #This line help me to overwrite the list_student in descending order
