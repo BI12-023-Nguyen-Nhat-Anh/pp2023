@@ -25,15 +25,13 @@ for student in list_student:
     point=[]
     for subject in list_subject:
         i=float(input(f"Score of {subject.get_name()} of student {student.get_name()}: "))
-        student.add_mark(math.floor(i))
+        student.add_mark(subject.get_name(),math.floor(i))
 
 for student in list_student:
     average_mark=[]
-    j=0
     for subject in list_subject:
         for i in range(subject.get_credit()):
-            average_mark.append(student.get_mark()[j])
-        j+=1
+            average_mark.append(student.get_mark()[subject.get_name()])
     student.add_average(round(np.mean(average_mark,axis=0),1))
 
 #This line help me to overwrite the list_student in descending order

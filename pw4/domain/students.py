@@ -20,7 +20,7 @@ class students(person):
         return self.__id
     
     def add_mark(self,n,x):
-        self.__mark[n]
+        self.__mark[n]=x
     
     def get_mark(self):
         return self.__mark
